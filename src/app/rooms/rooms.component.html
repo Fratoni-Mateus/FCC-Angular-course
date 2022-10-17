@@ -3,7 +3,7 @@
   Number of Rooms
   <div
     [ngStyle]="{
-      'background-color': rooms.availableRooms ? 'green' : 'red'
+      color: rooms.availableRooms ? 'green' : 'red'
     }"
     [innerText]="numberOfRooms"
   ></div>
@@ -13,40 +13,20 @@
 
 <!-- {{ roomList | json }} -->
 
+<div *ngIf="selectedRoom">
+  {{ selectedRoom | json }}
+</div>
+
+<div>
+  <button (click)="addRoom()">Add Room</button>
+</div>
+
 <div *ngIf="rooms.availableRooms > 0">
-  Rooms List
-  <!-- {{ roomList }} -->
-  <table class="table">
-    <tr>
-      <th>Index</th>
-      <th>Even/Odd</th>
-      <th>Room Number</th>
-      <th>Room Type</th>
-      <th>Room Price</th>
-      <th>Room Amenities</th>
-      <th>Checkin Time</th>
-      <th>Rating</th>
-    </tr>
-    <tr
-      [ngClass]="e ? 'even' : 'odd'"
-      *ngFor="
-        let room of roomList | slice: 0:3;
-        let e = even;
-        let o = odd;
-        let i = index
-      "
-    >
-      <td>{{ i | percent }}</td>
-      <td>{{ e ? "Even" : "Odd" }}</td>
-      <td>{{ room.roomNumber }}</td>
-      <td>{{ room.roomType }}</td>
-      <td>{{ room.price | currency: "BRL" }}</td>
-      <td>{{ room.amenities | titlecase }}</td>
-      <!--uppercase, lowercase-->
-      <td>{{ room.checkinTime | date: "d/MMM/yyyy hh:mm" }}</td>
-      <td>{{ room.rating | number: "1.1-1":"en-us" }}</td>
-    </tr>
-  </table>
+  <hinv-rooms-list
+    [rooms]="roomList"
+    [title]="title"
+    (selectedRoom)="selectRoom($event)"
+  ></hinv-rooms-list>
 </div>
 
 <button (click)="toggle()">Toggle</button>
